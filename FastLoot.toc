@@ -8,8 +8,6 @@
 ## SavedVariables: FlootMainWinnerList, FlootOffWinnerList, FlootAwardedItems, FlootRaidRoster, FlootTier9MainSpec, FlootTier9OffSpec, FlootAccounts, FlootTier10MainSpec, FlootTier10OffSpec, FlootGuildRoster, FlootTier11MainSpec, FlootTier11OffSpec, FlootTier11HeroicMainSpec, FlootTier11HeroicOffSpec
 ## SavedVariablesPerCharacter: Floot_ConfigDb 
 
-
-
 FlootStatics.lua
 Floot.lua
 FlootFrames.lua
