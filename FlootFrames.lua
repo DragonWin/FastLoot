@@ -107,8 +107,7 @@ function FlootFrames:CreateBackgroundFrame(FrameName)
 	 CloseButton:SetScript("OnMouseUP", Floot.CloseResultFrame)
 	 Frame:SetWidth(560)  -- Set the initial width of the FlootResultFrame
 	 Frame:SetHeight(FlootFramesRuntime["FlootResultFrameBaseHeight"])
-	 Title.Text:SetText("Roll Window")
-	 FlootFrames:CreateResultWindowFrames() -- Create the Raider/member/unknown colum and Titles
+	 Title.Text:SetText("Roll Window")	 FlootFrames:CreateResultWindowFrames() -- Create the Raider/member/unknown colum and Titles
 	 FlootFrames:CreateNukeButton()
  elseif (FrameName == "FlootUpdateWarning") then
 	 Frame:SetWidth(400)
@@ -376,7 +375,7 @@ function FlootFrames:CreateLootRow(LootInfo)
 		FlootFrameObj["FlootTextBox" .. LootInfo["ButtonId"]] = Frame
 
 		-- Create the MainSpec button
-		local MainSpec = CreateFrame("Button","FlootMainSpec" .. LootInfo["ButtonId"], Frame, "UIPanelButtonTemplate2")
+		local MainSpec = CreateFrame("Button","FlootMainSpec" .. LootInfo["ButtonId"], Frame, "UIPanelButtonTemplate")
 
 		if (LootInfo["ButtonId"] == 1) then
 			MainSpec:SetPoint("TOPLEFT", "FlootFrameStatus", "TOPLEFT", 12, -4)
@@ -394,7 +393,7 @@ function FlootFrames:CreateLootRow(LootInfo)
 		FlootFrameObj["FlootMainSpec" .. LootInfo["ButtonId"]] = MainSpec
 
 		-- Create the OffSpec button
-		local OffSpec = CreateFrame("Button","FlootOffSpec" ..  LootInfo["ButtonId"], Frame, "UIPanelButtonTemplate2")
+		local OffSpec = CreateFrame("Button","FlootOffSpec" ..  LootInfo["ButtonId"], Frame, "UIPanelButtonTemplate")
 		OffSpec:SetPoint("TOPLEFT", MainSpec, "TOPRIGHT", 5, 0)
 		OffSpec:SetText("OffSpec")
 		OffSpec:SetScript("OnMouseUP", function(...) Floot:StartRolls(...) end)
@@ -514,7 +513,7 @@ end
 --------------------------------------------------------
 function FlootFrames:CreateNukeButton()
 
-	local NukeButton = CreateFrame("Button","FlootNukeButton", FlootFrameObj["FlootResultFrame"], "UIPanelButtonTemplate2")
+	local NukeButton = CreateFrame("Button","FlootNukeButton", FlootFrameObj["FlootResultFrame"], "UIPanelButtonTemplate")
 	NukeButton:SetPoint("TOPRIGHT", FlootFrameObj["FlootResultFrameHelpButton"], "TOPLEFT", -7, 5)
 	NukeButton:SetText("Nuke")
 	NukeButton:SetScript("OnMouseUP", Floot.NukeItem)
