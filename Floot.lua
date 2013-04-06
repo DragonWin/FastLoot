@@ -264,9 +264,10 @@ end
 --------------------------------------------------------
 function Floot:SetRaiderRank(RankIndex, Value)
 	local ML = Floot:GetML()
+        local RL = Floot:GetRL()
 	-- Make sure only ML and RL can change raider ranks during a raid.
 	if ( UnitInRaid("player") ) then
-		if not ( UnitName("player") == ML or IsRealRaidLeader() ) then
+		if not ( UnitName("player") == ML or UnitName("player") == RL ) then
 			Floot:Print("Only Raid leader or Master looter is allowed to change loot ranks during a raid")
 			return
 		end
@@ -330,7 +331,7 @@ end
 --------------------------------------------------------
 function Floot:GetML()
 	local ML
-	for i=1, GetNumRaidMembers() do
+	for i=1, GetNumGroupMembers() do
 		local RaidName, _, _, _, _, _, _, _, _, _, IsML = GetRaidRosterInfo(i)
 		if (IsML) then
 			ML = RaidName
@@ -339,6 +340,20 @@ function Floot:GetML()
 	return ML
 end
 
+
+--------------------------------------------------------
+----    Find the Raid leader in the raid            ----
+--------------------------------------------------------
+function Floot:GetRL()
+	local RL
+	for i=1, GetNumGroupMembers() do
+		local RaidName, IsRL, _, _, _, _, _, _, _, _, IsML = GetRaidRosterInfo(i)
+		if (IsRL == 2) then
+			RL = RaidName
+		end
+	end
+	return RL
+end
 
 --------------------------------------------------------
 ----     Set the Zone name in the raid session      ----
@@ -383,11 +398,12 @@ end
 function Floot:RaidSetup(Remote)
 	local IsML
 	local MLPresent
+        local RL = Floot:GetRL()
 
 	if ( UnitInRaid("player") or FlootRuntime["Debug"]["BypassRaid"] ) then	-- Am I in a raid?
 
 		-- Find out if the set ML is in the raid.
-		for i=1, GetNumRaidMembers() do
+		for i=1, GetNumGroupMembers() do
 			local RaidName = GetRaidRosterInfo(i)
 			if (RaidName == Floot_ConfigDb["MasterLooter"]) then
 				MLPresent = RaidName
@@ -395,7 +411,7 @@ function Floot:RaidSetup(Remote)
 		end
 
 
-		if ( IsRealRaidLeader() ) then	-- Am I raid leader?
+		if ( UnitName("player") == RL ) then	-- Am I raid leader?
 
 			local LootMethod = GetLootMethod()
 			if ( MLPresent ) then	-- Do I have a Master looter set.
@@ -450,13 +466,13 @@ function Floot:SetRestOfRaidUp(Type)
 	elseif (Type == "SetRaidDifficulty") then
 		-- If AI is true try then figure out how many we are and set raid instance.
 		if (Floot_ConfigDb["RaidDifficultyAI"] == true) then
-			if ( GetNumRaidMembers() < 11 and not Floot_ConfigDb["RaidDiffucltyHeroic"] ) then
+			if ( GetNumGroupMembers() < 11 and not Floot_ConfigDb["RaidDiffucltyHeroic"] ) then
 				SetRaidDifficulty(1)	-- Normal 10 man
-			elseif (GetNumRaidMembers() < 11 and Floot_ConfigDb["RaidDiffucltyHeroic"] ) then
+			elseif (GetNumGroupMembers() < 11 and Floot_ConfigDb["RaidDiffucltyHeroic"] ) then
 				SetRaidDifficulty(3)	-- Heroic 10 man
-			elseif (GetNumRaidMembers() > 10 and not Floot_ConfigDb["RaidDiffucltyHeroic"] ) then
+			elseif (GetNumGroupMembers() > 10 and not Floot_ConfigDb["RaidDiffucltyHeroic"] ) then
 				SetRaidDifficulty(2)	-- Normal 25 man
-			elseif (GetNumRaidMembers() > 10 and Floot_ConfigDb["RaidDiffucltyHeroic"]) then
+			elseif (GetNumGroupMembers() > 10 and Floot_ConfigDb["RaidDiffucltyHeroic"]) then
 				SetRaidDifficulty(4)	-- Heroic 25 man
 			end
 		else
@@ -494,7 +510,7 @@ end
 function Floot:SetRaidNuker()
 	for NukerName, value in pairs(Floot_ConfigDb["KnownNukers"]) do
 		if (NukerName ~= "PlaceHolder") then	-- avoid the placeholder slot
-			for i=1, GetNumRaidMembers() do
+			for i=1, GetNumGroupMembers() do
 				local RaidName = GetRaidRosterInfo(i)
 				if (RaidName == NukerName) then
 					-- I am the ML
@@ -621,7 +637,7 @@ end
 --------------------------------------------------------
 function Floot:StoreFlootRaidRoster()
 -- TODO Add gathering of guild rank	
-	for ri = 1, GetNumRaidMembers() do
+	for ri = 1, GetNumGroupMembers() do
 		local rname = GetRaidRosterInfo(ri)
 		Floot:CreateAccounts(rname)
 		local newrname = Floot:GetMainName(rname)
@@ -1051,7 +1067,7 @@ function Floot:IncomingRolls(Event, String)
 			-- 9 = No match
 			-- 8 = Match
 			local ArmorTypeMatch = "9" 
-			for i = 1, GetNumRaidMembers() do
+			for i = 1, GetNumGroupMembers() do
 				local RosterName, _, _, _, Class, _, _, _, _, _, _ = GetRaidRosterInfo(i)
 				if (RosterName == Name) then
 					if ( FlootRuntime.RollLoot.ArmorType ) then
@@ -1378,7 +1394,7 @@ function Floot:BankItem()
 	for i = 1, GetNumGuildMembers(), 1 do
 		local RosterName, _, RankIndex = GetGuildRosterInfo(i)
 		if (RankIndex == 0 or RankIndex == 1) then -- 0 = GM, 1 = Officers
---			for RaidIndex = 1, GetNumRaidMembers() do
+--			for RaidIndex = 1, GetNumGroupMembers() do
 			for RaidIndex = 1, 25 do
 				local RaidName = GetRaidRosterInfo(RaidIndex)
 				if (RaidName == RosterName) then
@@ -1401,7 +1417,7 @@ function Floot:GiveItem(Name, Nuking)
 	for Loop = 1, 4 do
 		FlootRuntime["Debug"]["MasterLootCandidates"] = {}
 		Floot:Debug("MasterLoot", "Looking for " .. Name)
-		for Candidate = 1, GetNumRaidMembers() do  -- Lets Hand out the item
+		for Candidate = 1, GetNumGroupMembers() do  -- Lets Hand out the item
 			table.insert(FlootRuntime["Debug"]["MasterLootCandidates"], GetMasterLootCandidate(Candidate) )
 			if ( GetMasterLootCandidate(Candidate) == Name ) then
 				Floot:Debug("MasterLoot", "Got a Match for handout " .. GetMasterLootCandidate(Candidate) )
@@ -1564,7 +1580,7 @@ function Floot:CreateLookupRollersByItemID(FoundItemId)
 		end
 
 		if (FlootRuntime.ShowNonRollers and FlootRuntime.FoundItemId) then
-			for i=1, GetNumRaidMembers() do
+			for i=1, GetNumGroupMembers() do
 				local Name = GetRaidRosterInfo(i)
 				if not ( RealRollers[Name] ) then
 					LastIndex = LastIndex + 1
@@ -1980,7 +1996,7 @@ function Floot:SetNuker(Input, Nuker)
 	end
 
 	if (Nuker) then
-		for i = 1, GetNumRaidMembers() do
+		for i = 1, GetNumGroupMembers() do
 			local Name = GetRaidRosterInfo(i)
 			if (Name == Nuker) then
 				FlootRuntime["Nuker"] = Nuker
@@ -2010,7 +2026,7 @@ function Floot:SetNukeButton()
 	end
 
 	if (FlootRuntime["Nuker"]) then
-		for i=1, GetNumRaidMembers() do
+		for i=1, GetNumGroupMembers() do
 			local Name = GetRaidRosterInfo(i)
 			if (Name == FlootRuntime["Nuker"]) then
 				NukeButton:SetScript("OnMouseUP", Floot.NukeItem)
@@ -2309,7 +2325,7 @@ function Floot:SendRequestForMLChange(Input, TmpName)
 	if (TmpName) then
 		local Name = Floot:FormatName(TmpName)
 
-		for i=1, GetNumRaidMembers() do
+		for i=1, GetNumGroupMembers() do
 			local RosterName = GetRaidRosterInfo(i)
 			if (Name == RosterName) then
 				FlootCom:SendMessage("WHISPER","RequestForMLChange",Name,"Transfer")
@@ -2818,7 +2834,7 @@ function Floot:GetTextColor(Type,Data)
    }
 
    if (Type == "Name") then
-	  for i=1,GetNumRaidMembers() do
+	  for i=1,GetNumGroupMembers() do
 		 local RosterName, _, _, _, Class, _, _, _, _, _, _ = GetRaidRosterInfo(i)
 		 if (Data == RosterName) then
 			local Class = string.upper(Class)
