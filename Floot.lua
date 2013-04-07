@@ -20,7 +20,7 @@ FlootRuntime = {
 	ShowNonRollers = false,			-- MoveItem .. If true will add all raid members to select player to transfer item to dropdown.
 	MoveRollType = false,			-- If true will for a change of the item roll type (main/off spec) when moving it to another player.
 	VersionMajor = "1",				-- Addon Major Version number. This is bumped when incompability with older versions are broken.
-	VersionMinor = "05",			-- Addon Minor Version number. This is bumped for new versions that is still combatible with the previous version.
+	VersionMinor = "06",			-- Addon Minor Version number. This is bumped for new versions that is still combatible with the previous version.
 	VersionCheck = nil,				-- Keep track if user has been warned of an out of date addon.
 	RollStatus = "Stopped", 		-- Used to keep track of running rolls
 	RollType = nil, 				-- Keep track of current roll type
@@ -1394,7 +1394,7 @@ function Floot:BankItem()
 
 	for i = 1, GetNumGuildMembers(), 1 do
 		local RosterName, _, RankIndex = GetGuildRosterInfo(i)
-		if (RankIndex == 0 or RankIndex == 1) then -- 0 = GM, 1 = Officers
+		if (RankIndex == 0 or RankIndex == 1 or RankIndex == 2) then -- 0 = GM, 1 = Officers, 2 = Officers
 --			for RaidIndex = 1, GetNumGroupMembers() do
 			for RaidIndex = 1, 25 do
 				local RaidName = GetRaidRosterInfo(RaidIndex)

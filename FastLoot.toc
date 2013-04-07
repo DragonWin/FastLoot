@@ -1,4 +1,4 @@
-## Interface: 40200
+## Interface: 50200
 ## Title: FastLoot
 ## Notes: Loot distribution addon
 ## Author: Presco of Azjol-Nerub
