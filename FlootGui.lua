@@ -262,10 +262,10 @@ function FlootGui:CreateGui()
 								get = function() return Floot_ConfigDb["RaidDifficulty"] end,
 								set = function(info,value) Floot_ConfigDb["RaidDifficulty"] = value end,
 								values = {
-									[1] = "Normal 10",
-									[3] = "Heroic 10",
-									[2] = "Normal 25",
-									[4] = "Heroic 25",
+									[3] = "Normal 10",
+									[5] = "Heroic 10",
+									[4] = "Normal 25",
+									[6] = "Heroic 25",
 								},
 							},
 							RaidLootQuality = {

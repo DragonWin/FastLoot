@@ -126,7 +126,7 @@ Floot_ConfigDb = {
 		PlaceHolder = ""
 	},										-- Holds those that are banned as nukers.
 	RaidLootQuality = 3,					-- Set the Raids loot quality to this.
-	RaidDifficulty = 2,						-- 1 = 10 player, 2 = 25 player, 3 = 10 player heroic, 4 = 25 player heroic. 
+	RaidDifficulty = 3,						-- 3 = 10 player, 4 = 25 player, 5 = 10 player heroic, 6 = 25 player heroic. 
 	RaidDifficultyAI = true,				-- can be true or false, will try and determine if it's a 10 or 25 man raid.
 	RaidDiffucltyHeroic = false,			-- AI force heroic false / true
 	RaiderRanks = {							-- If true, that guild rank is considered a raider rank.
@@ -166,7 +166,7 @@ function Floot:OnInitialize()
 	self:RegisterEvent("CHAT_MSG_SYSTEM", "IncomingRolls")
 	self:RegisterEvent("VARIABLES_LOADED", "CleanOldConfig")
 	self:RegisterEvent("ZONE_CHANGED_NEW_AREA", "SetZoneName")
-	self:RegisterEvent("RAID_ROSTER_UPDATE", "RaidGroupChanged")
+	self:RegisterEvent("GROUP_ROSTER_UPDATE", "RaidGroupChanged")
 	Floot:CleanOldConfig()
 	FlootGui = Floot:NewFlootGui()
 	ConfigOpts = FlootGui:CreateGui()
@@ -300,9 +300,10 @@ function Floot:GetGuildRanks()
 		[9] = "Rank 9",
 		}
 
-	for i=1, GetNumGuildMembers(true), 1 do
-		local RosterName, Rank, RankIndex = GetGuildRosterInfo(i)
-		RankNames[RankIndex] = Rank
+	for i=1, GuildControlGetNumRanks(), 1 do
+		local Rank = GuildControlGetRankName(i)
+                local Index = i - 1
+		RankNames[Index] = Rank
 	end
 
 	local GuildName = GetGuildInfo("player")
@@ -467,16 +468,16 @@ function Floot:SetRestOfRaidUp(Type)
 		-- If AI is true try then figure out how many we are and set raid instance.
 		if (Floot_ConfigDb["RaidDifficultyAI"] == true) then
 			if ( GetNumGroupMembers() < 11 and not Floot_ConfigDb["RaidDiffucltyHeroic"] ) then
-				SetRaidDifficulty(1)	-- Normal 10 man
+				SetRaidDifficultyID(3)	-- Normal 10 man
 			elseif (GetNumGroupMembers() < 11 and Floot_ConfigDb["RaidDiffucltyHeroic"] ) then
-				SetRaidDifficulty(3)	-- Heroic 10 man
+				SetRaidDifficultyID(5)	-- Heroic 10 man
 			elseif (GetNumGroupMembers() > 10 and not Floot_ConfigDb["RaidDiffucltyHeroic"] ) then
-				SetRaidDifficulty(2)	-- Normal 25 man
+				SetRaidDifficultyID(4)	-- Normal 25 man
 			elseif (GetNumGroupMembers() > 10 and Floot_ConfigDb["RaidDiffucltyHeroic"]) then
-				SetRaidDifficulty(4)	-- Heroic 25 man
+				SetRaidDifficultyID(6)	-- Heroic 25 man
 			end
 		else
-			SetRaidDifficulty(Floot_ConfigDb["RaidDifficulty"])
+			SetRaidDifficultyID(Floot_ConfigDb["RaidDifficulty"])
 		end
 		FlootRuntime["RaidDifficultyTimer"] = nil
 
@@ -837,7 +838,7 @@ function Floot:GatherLootData()
 		local FoundAutoLoot = {}
 		ButtonId = 0
 		for i=1, GetNumLootItems() do
-			if (not LootSlotIsCoin(i)) then
+			if (GetLootSlotType(i) == 1) then
 				local Icon, ItemName, Quantity, Quality = GetLootSlotInfo(i)
 				local ItemLink = GetLootSlotLink(i)
 				local TooltipInfo = Floot:CheckItem(ItemLink)
@@ -886,7 +887,7 @@ function Floot:GatherLootData()
 					FlootRuntime["RollLoot"]["ButtonId"] = 200
 					Floot:BankItem()
 				end
-			elseif (LootSlotIsCoin(i)) then  -- Autoloot money
+			elseif (GetLootSlotType(i) == 2) then  -- Autoloot money
 				LootSlot(i)
 			end
 		end
@@ -1418,9 +1419,9 @@ function Floot:GiveItem(Name, Nuking)
 		FlootRuntime["Debug"]["MasterLootCandidates"] = {}
 		Floot:Debug("MasterLoot", "Looking for " .. Name)
 		for Candidate = 1, GetNumGroupMembers() do  -- Lets Hand out the item
-			table.insert(FlootRuntime["Debug"]["MasterLootCandidates"], GetMasterLootCandidate(Candidate) )
-			if ( GetMasterLootCandidate(Candidate) == Name ) then
-				Floot:Debug("MasterLoot", "Got a Match for handout " .. GetMasterLootCandidate(Candidate) )
+			table.insert(FlootRuntime["Debug"]["MasterLootCandidates"], Candidate)
+			if ( GetMasterLootCandidate(FlootRuntime["RollLoot"]["LootSlotId"], Candidate) == Name ) then
+				Floot:Debug("MasterLoot", "Got a Match for handout " .. GetMasterLootCandidate(FlootRuntime["RollLoot"]["LootSlotId"], Candidate) )
 				GiveMasterLoot(FlootRuntime["RollLoot"]["LootSlotId"], Candidate)
 				if (Nuking) then
 					SendChatMessage("Nuking " .. FlootRuntime["RollLoot"]["ItemLink"], "RAID")
@@ -2831,6 +2832,7 @@ function Floot:GetTextColor(Type,Data)
 	  ["SHAMAN"] = "|cff2459ff",
 	  ["WARLOCK"] = "|cff9482c9",
 	  ["WARRIOR"] = "|cffc79c6e",
+	  ["MONK"] = "|cff66ffcc",
    }
 
    if (Type == "Name") then
