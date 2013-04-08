@@ -65,36 +65,36 @@ if (not FlootOffWinnerList) then
 	FlootOffWinnerList = {}  -- Keep track of the winners
 end
 
-if (not FlootTier12MainSpec) then
-	FlootTier12MainSpec = {}	-- Tier12 tokens mainspec
+if (not FlootTier15MainSpec) then
+	FlootTier15MainSpec = {}	-- Tier15 tokens mainspec
 end
 
-if (not FlootTier12OffSpec) then
-	FlootTier12OffSpec = {}	-- Tier12 tokens offspec
+if (not FlootTier15OffSpec) then
+	FlootTier15OffSpec = {}	-- Tier15 tokens offspec
 end
 
-if (not FlootTier12HeroicMainSpec) then
-	FlootTier12HeroicMainSpec = {}	-- Tier12 Heroic tokens mainspec
+if (not FlootTier15HeroicMainSpec) then
+	FlootTier15HeroicMainSpec = {}	-- Tier15 Heroic tokens mainspec
 end
 
-if (not FlootTier12HeroicOffSpec) then
-	FlootTier12HeroicOffSpec = {}	-- Tier12 Heroic tokens offspec
+if (not FlootTier15HeroicOffSpec) then
+	FlootTier15HeroicOffSpec = {}	-- Tier15 Heroic tokens offspec
 end
 
-if (not FlootTier11MainSpec) then
-	FlootTier11MainSpec = {} -- Tier11 Mainspec
+if (not FlootTier14MainSpec) then
+	FlootTier14MainSpec = {} -- Tier14 Mainspec
 end
 
-if (not FlootTier11OffSpec) then
-	FlootTier11OffSpec = {} -- Tier11 Mainspec
+if (not FlootTier14OffSpec) then
+	FlootTier14OffSpec = {} -- Tier14 Mainspec
 end
 
-if (not FlootTier11HeroicMainSpec) then
-	FlootTier11HeroicMainSpec = {} -- Tier11 Mainspec
+if (not FlootTier14HeroicMainSpec) then
+	FlootTier14HeroicMainSpec = {} -- Tier14 Mainspec
 end
 
-if (not FlootTier11HeroicOffSpec) then
-	FlootTier11HeroicOffSpec = {} -- Tier11 Mainspec
+if (not FlootTier14HeroicOffSpec) then
+	FlootTier14HeroicOffSpec = {} -- Tier14 Mainspec
 end
 
 if (not FlootRaidRoster ) then	-- Stores raid session data for upload.
@@ -1178,20 +1178,20 @@ function Floot:GetWinnerIndex(Name, LootList)
 			FlootMainWinnerList[Name] = 000
 		end
 
-		if ( not FlootTier12MainSpec[Name] ) then
-			FlootTier12MainSpec[Name] = 000
+		if ( not FlootTier15MainSpec[Name] ) then
+			FlootTier15MainSpec[Name] = 000
 		end
 
-		if ( not FlootTier12HeroicMainSpec[Name] ) then
-			FlootTier12HeroicMainSpec[Name] = 000
+		if ( not FlootTier15HeroicMainSpec[Name] ) then
+			FlootTier15HeroicMainSpec[Name] = 000
 		end
 
-		if ( not FlootTier11MainSpec[Name] ) then
-			FlootTier11MainSpec[Name] = 000
+		if ( not FlootTier14MainSpec[Name] ) then
+			FlootTier14MainSpec[Name] = 000
 		end
 
-		if ( not FlootTier11HeroicMainSpec[Name] ) then
-			FlootTier11HeroicMainSpec[Name] = 000
+		if ( not FlootTier14HeroicMainSpec[Name] ) then
+			FlootTier14HeroicMainSpec[Name] = 000
 		end
 
 	elseif ( FlootRuntime["RollType"] == "OffSpec") then
@@ -1199,20 +1199,20 @@ function Floot:GetWinnerIndex(Name, LootList)
 			FlootOffWinnerList[Name] = 000
 		end
 
-		if ( not FlootTier12OffSpec[Name] ) then
-			FlootTier12OffSpec[Name] = 000
+		if ( not FlootTier15OffSpec[Name] ) then
+			FlootTier15OffSpec[Name] = 000
 		end
 
-		if ( not FlootTier12HeroicOffSpec[Name] ) then
-			FlootTier12HeroicOffSpec[Name] = 000
+		if ( not FlootTier15HeroicOffSpec[Name] ) then
+			FlootTier15HeroicOffSpec[Name] = 000
 		end
 
-		if ( not FlootTier11OffSpec[Name] ) then
-			FlootTier11OffSpec[Name] = 000
+		if ( not FlootTier14OffSpec[Name] ) then
+			FlootTier14OffSpec[Name] = 000
 		end
 
-		if ( not FlootTier11HeroicOffSpec[Name] ) then
-			FlootTier11HeroicOffSpec[Name] = 000
+		if ( not FlootTier14HeroicOffSpec[Name] ) then
+			FlootTier14HeroicOffSpec[Name] = 000
 		end
 	end
 
@@ -1225,32 +1225,32 @@ function Floot:GetWinnerIndex(Name, LootList)
 			return FlootOffWinnerList[Name]
 		end
 
-	elseif (LootList == "Tier12") then	-- This is Tier12 tokens
+	elseif (LootList == "Tier15") then	-- This is Tier15 tokens
 		if (FlootRuntime["RollType"] == "MainSpec" ) then
-			return FlootTier12MainSpec[Name]
+			return FlootTier15MainSpec[Name]
 		elseif ( FlootRuntime["RollType"] == "OffSpec" ) then
-			return FlootTier12OffSpec[Name]
+			return FlootTier15OffSpec[Name]
 		end
 
-	elseif (LootList =="Tier12h") then -- This is Tier12 heroic tokens
+	elseif (LootList =="Tier15h") then -- This is Tier15 heroic tokens
 		if (FlootRuntime["RollType"] == "MainSpec" ) then
-			return FlootTier12HeroicMainSpec[Name]
+			return FlootTier15HeroicMainSpec[Name]
 		elseif ( FlootRuntime["RollType"] == "OffSpec" ) then
-			return FlootTier12HeroicOffSpec[Name]
+			return FlootTier15HeroicOffSpec[Name]
 		end
 
-	elseif (LootList == "Tier11") then	-- This is Tier11 tokens
+	elseif (LootList == "Tier14") then	-- This is Tier14 tokens
 		if (FlootRuntime["RollType"] == "MainSpec" ) then
-			return FlootTier11MainSpec[Name]
+			return FlootTier14MainSpec[Name]
 		elseif ( FlootRuntime["RollType"] == "OffSpec" ) then
-			return FlootTier11OffSpec[Name]
+			return FlootTier14OffSpec[Name]
 		end
 
-	elseif (LootList =="Tier11h") then -- This is Tier11 heroic tokens
+	elseif (LootList =="Tier14h") then -- This is Tier14 heroic tokens
 		if (FlootRuntime["RollType"] == "MainSpec" ) then
-			return FlootTier11HeroicMainSpec[Name]
+			return FlootTier14HeroicMainSpec[Name]
 		elseif ( FlootRuntime["RollType"] == "OffSpec" ) then
-			return FlootTier11HeroicOffSpec[Name]
+			return FlootTier14HeroicOffSpec[Name]
 		end
 
 
@@ -1270,39 +1270,39 @@ function Floot:AwardItem(Name)
 		FlootOffWinnerList[Name] = FlootOffWinnerList[Name] + 1
 	end
 
-	-- This is Tier12 tokens
-	if ( FlootRuntime["RollLoot"]["LootList"] == "Tier12" ) then
+	-- This is Tier15 tokens
+	if ( FlootRuntime["RollLoot"]["LootList"] == "Tier15" ) then
 		if ( FlootRuntime["RollType"] == "MainSpec" ) then
-			FlootTier12MainSpec[Name] = FlootTier12MainSpec[Name] + 1
+			FlootTier15MainSpec[Name] = FlootTier15MainSpec[Name] + 1
 		elseif ( FlootRuntime["RollType"] == "OffSpec" ) then
-			FlootTier12OffSpec[Name] = FlootTier12OffSpec[Name] + 1
+			FlootTier15OffSpec[Name] = FlootTier15OffSpec[Name] + 1
 		end
 	end
 
-	-- This is Tier12 Heroic tokens
-	if ( FlootRuntime["RollLoot"]["LootList"] == "Tier12h" ) then
+	-- This is Tier15 Heroic tokens
+	if ( FlootRuntime["RollLoot"]["LootList"] == "Tier15h" ) then
 		if ( FlootRuntime["RollType"] == "MainSpec" ) then
-			FlootTier12HeroicMainSpec[Name] = FlootTier12HeroicMainSpec[Name] + 1
+			FlootTier15HeroicMainSpec[Name] = FlootTier15HeroicMainSpec[Name] + 1
 		elseif ( FlootRuntime["RollType"] == "OffSpec" ) then
-			FlootTier12HeroicOffSpec[Name] = FlootTier12HeroicOffSpec[Name] + 1
+			FlootTier15HeroicOffSpec[Name] = FlootTier15HeroicOffSpec[Name] + 1
 		end
 	end
 
-	-- This is Tier11 tokens
-	if ( FlootRuntime["RollLoot"]["LootList"] == "Tier11" ) then
+	-- This is Tier14 tokens
+	if ( FlootRuntime["RollLoot"]["LootList"] == "Tier14" ) then
 		if ( FlootRuntime["RollType"] == "MainSpec" ) then
-			FlootTier11MainSpec[Name] = FlootTier11MainSpec[Name] + 1
+			FlootTier14MainSpec[Name] = FlootTier14MainSpec[Name] + 1
 		elseif ( FlootRuntime["RollType"] == "OffSpec" ) then
-			FlootTier11OffSpec[Name] = FlootTier11OffSpec[Name] + 1
+			FlootTier14OffSpec[Name] = FlootTier14OffSpec[Name] + 1
 		end
 	end
 
-	-- This is Tier11 Heroic tokens
-	if ( FlootRuntime["RollLoot"]["LootList"] == "Tier11h" ) then
+	-- This is Tier14 Heroic tokens
+	if ( FlootRuntime["RollLoot"]["LootList"] == "Tier14h" ) then
 		if ( FlootRuntime["RollType"] == "MainSpec" ) then
-			FlootTier11HeroicMainSpec[Name] = FlootTier11HeroicMainSpec[Name] + 1
+			FlootTier14HeroicMainSpec[Name] = FlootTier14HeroicMainSpec[Name] + 1
 		elseif ( FlootRuntime["RollType"] == "OffSpec" ) then
-			FlootTier11HeroicOffSpec[Name] = FlootTier11HeroicOffSpec[Name] + 1
+			FlootTier14HeroicOffSpec[Name] = FlootTier14HeroicOffSpec[Name] + 1
 		end
 	end
 
@@ -1332,36 +1332,36 @@ function Floot:NukeItem()
 		FlootOffWinnerList["_nuked"] = 0
 	end
 
-	if not (FlootTier12MainSpec["_nuked"]) then
-		FlootTier12MainSpec["_nuked"] = 0
+	if not (FlootTier15MainSpec["_nuked"]) then
+		FlootTier15MainSpec["_nuked"] = 0
 	end
 
-	if not (FlootTier12OffSpec["_nuked"]) then
-		FlootTier12OffSpec["_nuked"] = 0
+	if not (FlootTier15OffSpec["_nuked"]) then
+		FlootTier15OffSpec["_nuked"] = 0
 	end
 
-	if not (FlootTier12HeroicMainSpec["_nuked"]) then
-		FlootTier12HeroicMainSpec["_nuked"] = 0
+	if not (FlootTier15HeroicMainSpec["_nuked"]) then
+		FlootTier15HeroicMainSpec["_nuked"] = 0
 	end
 
-	if not (FlootTier12HeroicOffSpec["_nuked"]) then
-		FlootTier12HeroicOffSpec["_nuked"] = 0
+	if not (FlootTier15HeroicOffSpec["_nuked"]) then
+		FlootTier15HeroicOffSpec["_nuked"] = 0
 	end
 
-	if not (FlootTier11MainSpec["_nuked"]) then
-		FlootTier11MainSpec["_nuked"] = 0
+	if not (FlootTier14MainSpec["_nuked"]) then
+		FlootTier14MainSpec["_nuked"] = 0
 	end
 
-	if not (FlootTier11OffSpec["_nuked"]) then
-		FlootTier11OffSpec["_nuked"] = 0
+	if not (FlootTier14OffSpec["_nuked"]) then
+		FlootTier14OffSpec["_nuked"] = 0
 	end
 
-	if not (FlootTier11HeroicMainSpec["_nuked"]) then
-		FlootTier11HeroicMainSpec["_nuked"] = 0
+	if not (FlootTier14HeroicMainSpec["_nuked"]) then
+		FlootTier14HeroicMainSpec["_nuked"] = 0
 	end
 
-	if not (FlootTier11HeroicOffSpec["_nuked"]) then
-		FlootTier11HeroicOffSpec["_nuked"] = 0
+	if not (FlootTier14HeroicOffSpec["_nuked"]) then
+		FlootTier14HeroicOffSpec["_nuked"] = 0
 	end
 
 
@@ -1372,36 +1372,36 @@ function Floot:NukeItem()
 		elseif ( FlootRuntime["RollType"] == "OffSpec" ) then
 			FlootOffWinnerList["_nuked"] = FlootOffWinnerList["_nuked"] + 1
 		end
-		-- Tier12 items
-	elseif (FlootRuntime["RollLoot"]["LootInfo"] == "Tier12" ) then
+		-- Tier15 items
+	elseif (FlootRuntime["RollLoot"]["LootInfo"] == "Tier15" ) then
 		if (FlootRuntime["RollType"] == "MainSpec" ) then
-			FlootTier12MainSpec["_nuked"] = FlootTier12MainSpec["_nuked"] + 1
+			FlootTier15MainSpec["_nuked"] = FlootTier15MainSpec["_nuked"] + 1
 		elseif (FlootRuntime["RollType"] == "OffSpec" ) then
-			FlootTier12OffSpec["_nuked"] = FlootTier12OffSpec["_nuked"] + 1
+			FlootTier15OffSpec["_nuked"] = FlootTier15OffSpec["_nuked"] + 1
 		end
 
-		-- Tier12 Heroic items
-	elseif (FlootRuntime["RollLoot"]["LootInfo"] == "Tier12h" ) then
+		-- Tier15 Heroic items
+	elseif (FlootRuntime["RollLoot"]["LootInfo"] == "Tier15h" ) then
 		if (FlootRuntime["RollType"] == "MainSpec" ) then
-			FlootTier12HeroicMainSpec["_nuked"] = FlootTier12HeroicMainSpec["_nuked"] + 1
+			FlootTier15HeroicMainSpec["_nuked"] = FlootTier15HeroicMainSpec["_nuked"] + 1
 		elseif (FlootRuntime["RollType"] == "OffSpec" ) then
-			FlootTier12HeroicOffSpec["_nuked"] = FlootTier12HeroicOffSpec["_nuked"] + 1
+			FlootTier15HeroicOffSpec["_nuked"] = FlootTier15HeroicOffSpec["_nuked"] + 1
 		end
 
-		-- Tier11 items
-	elseif (FlootRuntime["RollLoot"]["LootInfo"] == "Tier11" ) then
+		-- Tier14 items
+	elseif (FlootRuntime["RollLoot"]["LootInfo"] == "Tier14" ) then
 		if (FlootRuntime["RollType"] == "MainSpec" ) then
-			FlootTier11MainSpec["_nuked"] = FlootTier11MainSpec["_nuked"] + 1
+			FlootTier14MainSpec["_nuked"] = FlootTier14MainSpec["_nuked"] + 1
 		elseif (FlootRuntime["RollType"] == "OffSpec" ) then
-			FlootTier11OffSpec["_nuked"] = FlootTier11OffSpec["_nuked"] + 1
+			FlootTier14OffSpec["_nuked"] = FlootTier14OffSpec["_nuked"] + 1
 		end
 
-		-- Tier11 Heroic items
-	elseif (FlootRuntime["RollLoot"]["LootInfo"] == "Tier11h" ) then
+		-- Tier14 Heroic items
+	elseif (FlootRuntime["RollLoot"]["LootInfo"] == "Tier14h" ) then
 		if (FlootRuntime["RollType"] == "MainSpec" ) then
-			FlootTier11HeroicMainSpec["_nuked"] = FlootTier11HeroicMainSpec["_nuked"] + 1
+			FlootTier14HeroicMainSpec["_nuked"] = FlootTier14HeroicMainSpec["_nuked"] + 1
 		elseif (FlootRuntime["RollType"] == "OffSpec" ) then
-			FlootTier11HeroicOffSpec["_nuked"] = FlootTier11HeroicOffSpec["_nuked"] + 1
+			FlootTier14HeroicOffSpec["_nuked"] = FlootTier14HeroicOffSpec["_nuked"] + 1
 		end
 
 	end
@@ -1666,25 +1666,25 @@ function Floot:MoveItem(ChosenItemRoller)
 		
 		FlootMainWinnerList[FlootRuntime.PlayerNameItemLookup] = FlootMainWinnerList[FlootRuntime.PlayerNameItemLookup] -1
 	
-		-- Tier12
-		if (LootList == "Tier12") then -- Need to decrement the Tier12 token list too if this is a tier10 item.
-			FlootTier12MainSpec[FlootRuntime.PlayerNameItemLookup] = FlootTier12MainSpec[FlootRuntime.PlayerNameItemLookup] -1
+		-- Tier15
+		if (LootList == "Tier15") then -- Need to decrement the Tier15 token list too if this is a tier10 item.
+			FlootTier15MainSpec[FlootRuntime.PlayerNameItemLookup] = FlootTier15MainSpec[FlootRuntime.PlayerNameItemLookup] -1
 		end
 
-		-- Tier12 Heroic
-		if (LootList == "Tier12h") then -- Need to decrement the Tier12 token list too if this is a tier10 heroic item.
-			FlootTier12HeroicMainSpec[FlootRuntime.PlayerNameItemLookup] = FlootTier12HeroicMainSpec[FlootRuntime.PlayerNameItemLookup] -1
+		-- Tier15 Heroic
+		if (LootList == "Tier15h") then -- Need to decrement the Tier15 token list too if this is a tier10 heroic item.
+			FlootTier15HeroicMainSpec[FlootRuntime.PlayerNameItemLookup] = FlootTier15HeroicMainSpec[FlootRuntime.PlayerNameItemLookup] -1
 		end
 
 
 		-- Tier 11
-		if (LootList == "Tier11") then -- Need to decrement the tier10 token list too if this is a tier10 item.
-			FlootTier11MainSpec[FlootRuntime.PlayerNameItemLookup] = FlootTier11MainSpec[FlootRuntime.PlayerNameItemLookup] -1
+		if (LootList == "Tier14") then -- Need to decrement the tier10 token list too if this is a tier10 item.
+			FlootTier14MainSpec[FlootRuntime.PlayerNameItemLookup] = FlootTier14MainSpec[FlootRuntime.PlayerNameItemLookup] -1
 		end
 
 		-- Tier 11 Heroic
-		if (LootList == "Tier11h") then -- Need to decrement the tier10 token list too if this is a tier10 heroic item.
-			FlootTier11HeroicMainSpec[FlootRuntime.PlayerNameItemLookup] = FlootTier11HeroicMainSpec[FlootRuntime.PlayerNameItemLookup] -1
+		if (LootList == "Tier14h") then -- Need to decrement the tier10 token list too if this is a tier10 heroic item.
+			FlootTier14HeroicMainSpec[FlootRuntime.PlayerNameItemLookup] = FlootTier14HeroicMainSpec[FlootRuntime.PlayerNameItemLookup] -1
 		end
 
 
@@ -1708,84 +1708,84 @@ function Floot:MoveItem(ChosenItemRoller)
 			Floot:Print("Moved Item to " .. FlootRuntime["FoundItemRollers"][ChosenItemRoller] .. FONT_COLOR_CODE_CLOSE .. " as OffSpec")
 		end
 
-		-- Tier12 items needs to be moved by themself
-		if (LootList == "Tier12") then
+		-- Tier15 items needs to be moved by themself
+		if (LootList == "Tier15") then
 
 			if (FlootRuntime.MoveRollType == false) then	-- don't change roll type
-				if ( FlootTier12MainSpec[RecievingPlayerName] ) then
-					FlootTier12MainSpec[RecievingPlayerName] = FlootTier12MainSpec[RecievingPlayerName] +1
+				if ( FlootTier15MainSpec[RecievingPlayerName] ) then
+					FlootTier15MainSpec[RecievingPlayerName] = FlootTier15MainSpec[RecievingPlayerName] +1
 				else
-					FlootTier12MainSpec[RecievingPlayerName] = 1
+					FlootTier15MainSpec[RecievingPlayerName] = 1
 				end
 				Floot:Print("Moved Item to " .. FlootRuntime["FoundItemRollers"][ChosenItemRoller] .. FONT_COLOR_CODE_CLOSE .. " as MainSpec")
 	
 			else	-- Change roll type give new winner Offspec instead.
-				if ( FlootTier12OffSpec[RecievingPlayerName] ) then
-					FlootTier12OffSpec[RecievingPlayerName] = FlootTier12OffSpec[RecievingPlayerName] + 1
+				if ( FlootTier15OffSpec[RecievingPlayerName] ) then
+					FlootTier15OffSpec[RecievingPlayerName] = FlootTier15OffSpec[RecievingPlayerName] + 1
 				else
-					FlootTier12OffSpec[RecievingPlayerName] = 1
+					FlootTier15OffSpec[RecievingPlayerName] = 1
 				end
 			end
 		end
 
-		-- Tier12 Heroic items needs to be moved by themself
-		if (LootList == "Tier12h") then
+		-- Tier15 Heroic items needs to be moved by themself
+		if (LootList == "Tier15h") then
 
 			if (FlootRuntime.MoveRollType == false) then	-- don't change roll type
-				if ( FlootTier12HeroicMainSpec[RecievingPlayerName] ) then
-					FlootTier12HeroicMainSpec[RecievingPlayerName] = FlootTier12HeroicMainSpec[RecievingPlayerName] +1
+				if ( FlootTier15HeroicMainSpec[RecievingPlayerName] ) then
+					FlootTier15HeroicMainSpec[RecievingPlayerName] = FlootTier15HeroicMainSpec[RecievingPlayerName] +1
 				else
-					FlootTier12HeroicMainSpec[RecievingPlayerName] = 1
+					FlootTier15HeroicMainSpec[RecievingPlayerName] = 1
 				end
 				Floot:Print("Moved Item to " .. FlootRuntime["FoundItemRollers"][ChosenItemRoller] .. FONT_COLOR_CODE_CLOSE .. " as MainSpec")
 	
 			else	-- Change roll type give new winner Offspec instead.
-				if ( FlootTier12HeroicOffSpec[RecievingPlayerName] ) then
-					FlootTier12HeroicOffSpec[RecievingPlayerName] = FlootTier12HeroicOffSpec[RecievingPlayerName] + 1
+				if ( FlootTier15HeroicOffSpec[RecievingPlayerName] ) then
+					FlootTier15HeroicOffSpec[RecievingPlayerName] = FlootTier15HeroicOffSpec[RecievingPlayerName] + 1
 				else
-					FlootTier12HeroicOffSpec[RecievingPlayerName] = 1
+					FlootTier15HeroicOffSpec[RecievingPlayerName] = 1
 				end
 			end
 		end
 
 
 
-		-- Tier11 items needs to be moved by themself
-		if (LootList == "Tier11") then
+		-- Tier14 items needs to be moved by themself
+		if (LootList == "Tier14") then
 
 			if (FlootRuntime.MoveRollType == false) then	-- don't change roll type
-				if ( FlootTier11MainSpec[RecievingPlayerName] ) then
-					FlootTier11MainSpec[RecievingPlayerName] = FlootTier11MainSpec[RecievingPlayerName] +1
+				if ( FlootTier14MainSpec[RecievingPlayerName] ) then
+					FlootTier14MainSpec[RecievingPlayerName] = FlootTier14MainSpec[RecievingPlayerName] +1
 				else
-					FlootTier11MainSpec[RecievingPlayerName] = 1
+					FlootTier14MainSpec[RecievingPlayerName] = 1
 				end
 				Floot:Print("Moved Item to " .. FlootRuntime["FoundItemRollers"][ChosenItemRoller] .. FONT_COLOR_CODE_CLOSE .. " as MainSpec")
 	
 			else	-- Change roll type give new winner Offspec instead.
-				if ( FlootTier11OffSpec[RecievingPlayerName] ) then
-					FlootTier11OffSpec[RecievingPlayerName] = FlootTier11OffSpec[RecievingPlayerName] + 1
+				if ( FlootTier14OffSpec[RecievingPlayerName] ) then
+					FlootTier14OffSpec[RecievingPlayerName] = FlootTier14OffSpec[RecievingPlayerName] + 1
 				else
-					FlootTier11OffSpec[RecievingPlayerName] = 1
+					FlootTier14OffSpec[RecievingPlayerName] = 1
 				end
 			end
 		end
 
-		-- Tier11 Heroic items needs to be moved by themself
-		if (LootList == "Tier11h") then
+		-- Tier14 Heroic items needs to be moved by themself
+		if (LootList == "Tier14h") then
 
 			if (FlootRuntime.MoveRollType == false) then	-- don't change roll type
-				if ( FlootTier11HeroicMainSpec[RecievingPlayerName] ) then
-					FlootTier11HeroicMainSpec[RecievingPlayerName] = FlootTier11HeroicMainSpec[RecievingPlayerName] +1
+				if ( FlootTier14HeroicMainSpec[RecievingPlayerName] ) then
+					FlootTier14HeroicMainSpec[RecievingPlayerName] = FlootTier14HeroicMainSpec[RecievingPlayerName] +1
 				else
-					FlootTier11HeroicMainSpec[RecievingPlayerName] = 1
+					FlootTier14HeroicMainSpec[RecievingPlayerName] = 1
 				end
 				Floot:Print("Moved Item to " .. FlootRuntime["FoundItemRollers"][ChosenItemRoller] .. FONT_COLOR_CODE_CLOSE .. " as MainSpec")
 	
 			else	-- Change roll type give new winner Offspec instead.
-				if ( FlootTier11HeroicOffSpec[RecievingPlayerName] ) then
-					FlootTier11HeroicOffSpec[RecievingPlayerName] = FlootTier11HeroicOffSpec[RecievingPlayerName] + 1
+				if ( FlootTier14HeroicOffSpec[RecievingPlayerName] ) then
+					FlootTier14HeroicOffSpec[RecievingPlayerName] = FlootTier14HeroicOffSpec[RecievingPlayerName] + 1
 				else
-					FlootTier11HeroicOffSpec[RecievingPlayerName] = 1
+					FlootTier14HeroicOffSpec[RecievingPlayerName] = 1
 				end
 			end
 		end
@@ -1798,24 +1798,24 @@ function Floot:MoveItem(ChosenItemRoller)
 
 		FlootOffWinnerList[FlootRuntime.PlayerNameItemLookup] = FlootOffWinnerList[FlootRuntime.PlayerNameItemLookup] -1
 
-		-- Tier12
-		if (LootList == "Tier12") then
-			FlootTier12OffSpec[FlootRuntime.PlayerNameItemLookup] = FlootTier12OffSpec[FlootRuntime.PlayerNameItemLookup] -1
+		-- Tier15
+		if (LootList == "Tier15") then
+			FlootTier15OffSpec[FlootRuntime.PlayerNameItemLookup] = FlootTier15OffSpec[FlootRuntime.PlayerNameItemLookup] -1
 		end
 
-		-- Tier12 heroic
-		if (LootList == "Tier12h") then
-			FlootTier12HeroicOffSpec[FlootRuntime.PlayerNameItemLookup] = FlootTier12HeroicOffSpec[FlootRuntime.PlayerNameItemLookup] -1
+		-- Tier15 heroic
+		if (LootList == "Tier15h") then
+			FlootTier15HeroicOffSpec[FlootRuntime.PlayerNameItemLookup] = FlootTier15HeroicOffSpec[FlootRuntime.PlayerNameItemLookup] -1
 		end
 
 		-- Tier 11
-		if (LootList == "Tier11") then
-			FlootTier11OffSpec[FlootRuntime.PlayerNameItemLookup] = FlootTier12OffSpec[FlootRuntime.PlayerNameItemLookup] -1
+		if (LootList == "Tier14") then
+			FlootTier14OffSpec[FlootRuntime.PlayerNameItemLookup] = FlootTier15OffSpec[FlootRuntime.PlayerNameItemLookup] -1
 		end
 
 		-- Tier 11 heroic
-		if (LootList == "Tier11h") then
-			FlootTier11HeroicOffSpec[FlootRuntime.PlayerNameItemLookup] = FlootTier11HeroicOffSpec[FlootRuntime.PlayerNameItemLookup] -1
+		if (LootList == "Tier14h") then
+			FlootTier14HeroicOffSpec[FlootRuntime.PlayerNameItemLookup] = FlootTier14HeroicOffSpec[FlootRuntime.PlayerNameItemLookup] -1
 		end
 
 
@@ -1840,80 +1840,80 @@ function Floot:MoveItem(ChosenItemRoller)
 		end
 
 
-		-- Tier12 items needs to be moved by themself
-		if (LootList == "Tier12") then
+		-- Tier15 items needs to be moved by themself
+		if (LootList == "Tier15") then
 
 			if (FlootRuntime.MoveRollType == false) then	-- don't change roll type
-				if ( FlootTier12OffSpec[RecievingPlayerName] ) then
-					FlootTier12OffSpec[RecievingPlayerName] = FlootTier12OffSpec[RecievingPlayerName] + 1
+				if ( FlootTier15OffSpec[RecievingPlayerName] ) then
+					FlootTier15OffSpec[RecievingPlayerName] = FlootTier15OffSpec[RecievingPlayerName] + 1
 				else
-					FlootTier12OffSpec[RecievingPlayerName] = 1
+					FlootTier15OffSpec[RecievingPlayerName] = 1
 				end
 	
 			else	-- Change roll type give new winner Main spec
-				if ( FlootTier12MainSpec[RecievingPlayerName] ) then
-					FlootTier12MainSpec[RecievingPlayerName] = FlootTier12MainSpec[RecievingPlayerName] +1
+				if ( FlootTier15MainSpec[RecievingPlayerName] ) then
+					FlootTier15MainSpec[RecievingPlayerName] = FlootTier15MainSpec[RecievingPlayerName] +1
 				else
-					FlootTier12MainSpec[RecievingPlayerName] = 1
+					FlootTier15MainSpec[RecievingPlayerName] = 1
 				end
 			end
 		end
 
-		-- Tier12 heroic items needs to be moved by themself
-		if (LootList == "Tier12h") then
+		-- Tier15 heroic items needs to be moved by themself
+		if (LootList == "Tier15h") then
 
 			if (FlootRuntime.MoveRollType == false) then	-- don't change roll type
-				if ( FlootTier12HeroicOffSpec[RecievingPlayerName] ) then
-					FlootTier12HeroicOffSpec[RecievingPlayerName] = FlootTier12HeroicOffSpec[RecievingPlayerName] + 1
+				if ( FlootTier15HeroicOffSpec[RecievingPlayerName] ) then
+					FlootTier15HeroicOffSpec[RecievingPlayerName] = FlootTier15HeroicOffSpec[RecievingPlayerName] + 1
 				else
-					FlootTier12HeroicOffSpec[RecievingPlayerName] = 1
+					FlootTier15HeroicOffSpec[RecievingPlayerName] = 1
 				end
 	
 			else	-- Change roll type give new winner Main spec
-				if ( FlootTier12HeroicMainSpec[RecievingPlayerName] ) then
-					FlootTier12HeroicMainSpec[RecievingPlayerName] = FlootTier12HeroicMainSpec[RecievingPlayerName] +1
+				if ( FlootTier15HeroicMainSpec[RecievingPlayerName] ) then
+					FlootTier15HeroicMainSpec[RecievingPlayerName] = FlootTier15HeroicMainSpec[RecievingPlayerName] +1
 				else
-					FlootTier12HeroicMainSpec[RecievingPlayerName] = 1
+					FlootTier15HeroicMainSpec[RecievingPlayerName] = 1
 				end
 			end
 		end
 
 
 
-		-- Tier11 items needs to be moved by themself
-		if (LootList == "Tier11") then
+		-- Tier14 items needs to be moved by themself
+		if (LootList == "Tier14") then
 
 			if (FlootRuntime.MoveRollType == false) then	-- don't change roll type
-				if ( FlootTier11OffSpec[RecievingPlayerName] ) then
-					FlootTier11OffSpec[RecievingPlayerName] = FlootTier11OffSpec[RecievingPlayerName] + 1
+				if ( FlootTier14OffSpec[RecievingPlayerName] ) then
+					FlootTier14OffSpec[RecievingPlayerName] = FlootTier14OffSpec[RecievingPlayerName] + 1
 				else
-					FlootTier11OffSpec[RecievingPlayerName] = 1
+					FlootTier14OffSpec[RecievingPlayerName] = 1
 				end
 	
 			else	-- Change roll type give new winner Main spec
-				if ( FlootTier11MainSpec[RecievingPlayerName] ) then
-					FlootTier11MainSpec[RecievingPlayerName] = FlootTier11MainSpec[RecievingPlayerName] +1
+				if ( FlootTier14MainSpec[RecievingPlayerName] ) then
+					FlootTier14MainSpec[RecievingPlayerName] = FlootTier14MainSpec[RecievingPlayerName] +1
 				else
-					FlootTier11MainSpec[RecievingPlayerName] = 1
+					FlootTier14MainSpec[RecievingPlayerName] = 1
 				end
 			end
 		end
 
-		-- Tier11 heroic items needs to be moved by themself
-		if (LootList == "Tier11h") then
+		-- Tier14 heroic items needs to be moved by themself
+		if (LootList == "Tier14h") then
 
 			if (FlootRuntime.MoveRollType == false) then	-- don't change roll type
-				if ( FlootTier11HeroicOffSpec[RecievingPlayerName] ) then
-					FlootTier11HeroicOffSpec[RecievingPlayerName] = FlootTier11HeroicOffSpec[RecievingPlayerName] + 1
+				if ( FlootTier14HeroicOffSpec[RecievingPlayerName] ) then
+					FlootTier14HeroicOffSpec[RecievingPlayerName] = FlootTier14HeroicOffSpec[RecievingPlayerName] + 1
 				else
-					FlootTier11HeroicOffSpec[RecievingPlayerName] = 1
+					FlootTier14HeroicOffSpec[RecievingPlayerName] = 1
 				end
 	
 			else	-- Change roll type give new winner Main spec
-				if ( FlootTier11HeroicMainSpec[RecievingPlayerName] ) then
-					FlootTier11HeroicMainSpec[RecievingPlayerName] = FlootTier11HeroicMainSpec[RecievingPlayerName] +1
+				if ( FlootTier14HeroicMainSpec[RecievingPlayerName] ) then
+					FlootTier14HeroicMainSpec[RecievingPlayerName] = FlootTier14HeroicMainSpec[RecievingPlayerName] +1
 				else
-					FlootTier11HeroicMainSpec[RecievingPlayerName] = 1
+					FlootTier14HeroicMainSpec[RecievingPlayerName] = 1
 				end
 			end
 		end
@@ -2376,14 +2376,14 @@ function Floot:PackFullSyncData()
 	local Transmit = {}
 	Transmit["MainWinnerList"] = FlootMainWinnerList
 	Transmit["OffWinnerList"] = FlootOffWinnerList
-	Transmit["FlootTier12MainSpec"] = FlootTier12MainSpec
-	Transmit["FlootTier12OffSpec"] = FlootTier12OffSpec
-	Transmit["FlootTier12HeroicMainSpec"] = FlootTier12HeroicMainSpec
-	Transmit["FlootTier12HeroicOffSpec"] = FlootTier12HeroicOffSpec
-	Transmit["FlootTier11MainSpec"] = FlootTier11MainSpec
-	Transmit["FlootTier11OffSpec"] = FlootTier11OffSpec
-	Transmit["FlootTier11HeroicMainSpec"] = FlootTier11HeroicMainSpec
-	Transmit["FlootTier11HeroicOffSpec"] = FlootTier11HeroicOffSpec
+	Transmit["FlootTier15MainSpec"] = FlootTier15MainSpec
+	Transmit["FlootTier15OffSpec"] = FlootTier15OffSpec
+	Transmit["FlootTier15HeroicMainSpec"] = FlootTier15HeroicMainSpec
+	Transmit["FlootTier15HeroicOffSpec"] = FlootTier15HeroicOffSpec
+	Transmit["FlootTier14MainSpec"] = FlootTier14MainSpec
+	Transmit["FlootTier14OffSpec"] = FlootTier14OffSpec
+	Transmit["FlootTier14HeroicMainSpec"] = FlootTier14HeroicMainSpec
+	Transmit["FlootTier14HeroicOffSpec"] = FlootTier14HeroicOffSpec
 	Transmit["WinnerListResetDate"] = Floot_ConfigDb["WinnerListResetDate"]
 	Transmit["FlootAwardedItems"] = FlootAwardedItems
 	Transmit["FlootRaidRoster"] = FlootRaidRoster
@@ -2401,14 +2401,14 @@ function Floot:UnPackFullSyncData(Message)
 
 	FlootMainWinnerList = Message["MainWinnerList"]
 	FlootOffWinnerList = Message["OffWinnerList"]
-	FlootTier12MainSpec = Message["FlootTier12MainSpec"]
-	FlootTier12OffSpec = Message["FlootTier12OffSpec"]
-	FlootTier12HeroicMainSpec = Message["FlootTier12HeroicMainSpec"]
-	FlootTier12HeroicOffSpec = Message["FlootTier12HeroicOffSpec"]
-	FlootTier11MainSpec = Message["FlootTier11MainSpec"]
-	FlootTier11OffSpec = Message["FlootTier11OffSpec"]
-	FlootTier11HeroicMainSpec = Message["FlootTier11HeroicMainSpec"]
-	FlootTier11HeroicOffSpec = Message["FlootTier11HeroicOffSpec"]
+	FlootTier15MainSpec = Message["FlootTier15MainSpec"]
+	FlootTier15OffSpec = Message["FlootTier15OffSpec"]
+	FlootTier15HeroicMainSpec = Message["FlootTier15HeroicMainSpec"]
+	FlootTier15HeroicOffSpec = Message["FlootTier15HeroicOffSpec"]
+	FlootTier14MainSpec = Message["FlootTier14MainSpec"]
+	FlootTier14OffSpec = Message["FlootTier14OffSpec"]
+	FlootTier14HeroicMainSpec = Message["FlootTier14HeroicMainSpec"]
+	FlootTier14HeroicOffSpec = Message["FlootTier14HeroicOffSpec"]
 	Floot_ConfigDb["WinnerListResetDate"] = Message["WinnerListResetDate"]
 	FlootAwardedItems = Message["FlootAwardedItems"]
 	FlootRaidRoster = Message["FlootRaidRoster"]
@@ -2461,14 +2461,14 @@ function Floot:BroadcastWinnerList()
 	local Transmit = {}
 	Transmit["MainWinnerList"] = FlootMainWinnerList
 	Transmit["OffWinnerList"] = FlootOffWinnerList
-	Transmit["FlootTier12MainSpec"] = FlootTier12MainSpec
-	Transmit["FlootTier12OffSpec"] = FlootTier12OffSpec
-	Transmit["FlootTier12HeroicMainSpec"] = FlootTier12HeroicMainSpec
-	Transmit["FlootTier12HeroicOffSpec"] = FlootTier12HeroicOffSpec
-	Transmit["FlootTier11MainSpec"] = FlootTier11MainSpec
-	Transmit["FlootTier11OffSpec"] = FlootTier11OffSpec
-	Transmit["FlootTier11HeroicMainSpec"] = FlootTier11HeroicMainSpec
-	Transmit["FlootTier11HeroicOffSpec"] = FlootTier11HeroicOffSpec
+	Transmit["FlootTier15MainSpec"] = FlootTier15MainSpec
+	Transmit["FlootTier15OffSpec"] = FlootTier15OffSpec
+	Transmit["FlootTier15HeroicMainSpec"] = FlootTier15HeroicMainSpec
+	Transmit["FlootTier15HeroicOffSpec"] = FlootTier15HeroicOffSpec
+	Transmit["FlootTier14MainSpec"] = FlootTier14MainSpec
+	Transmit["FlootTier14OffSpec"] = FlootTier14OffSpec
+	Transmit["FlootTier14HeroicMainSpec"] = FlootTier14HeroicMainSpec
+	Transmit["FlootTier14HeroicOffSpec"] = FlootTier14HeroicOffSpec
 
 	FlootCom:SendMessage("RAID", "IncBroadcastWinnerList", "Broadcast", Transmit)
 	Floot:Debug("BroadcastUpdate", "Sending Raid Broadcast with updated WinnerLists")
@@ -2482,14 +2482,14 @@ function Floot:IncBroadcastWinnerList(Message,Sender)
 
 	FlootMainWinnerList = Message["MainWinnerList"]
 	FlootOffWinnerList = Message["OffWinnerList"]
-	FlootTier12MainSpec = Message["FlootTier12MainSpec"]
-	FlootTier12OffSpec = Message["FlootTier12OffSpec"]
-	FlootTier12HeroicMainSpec = Message["FlootTier12HeroicMainSpec"]
-	FlootTier12HeroicOffSpec = Message["FlootTier12HeroicOffSpec"]
-	FlootTier11MainSpec = Message["FlootTier11MainSpec"]
-	FlootTier11OffSpec = Message["FlootTier11OffSpec"]
-	FlootTier11HeroicMainSpec = Message["FlootTier11HeroicMainSpec"]
-	FlootTier11HeroicOffSpec = Message["FlootTier11HeroicOffSpec"]
+	FlootTier15MainSpec = Message["FlootTier15MainSpec"]
+	FlootTier15OffSpec = Message["FlootTier15OffSpec"]
+	FlootTier15HeroicMainSpec = Message["FlootTier15HeroicMainSpec"]
+	FlootTier15HeroicOffSpec = Message["FlootTier15HeroicOffSpec"]
+	FlootTier14MainSpec = Message["FlootTier14MainSpec"]
+	FlootTier14OffSpec = Message["FlootTier14OffSpec"]
+	FlootTier14HeroicMainSpec = Message["FlootTier14HeroicMainSpec"]
+	FlootTier14HeroicOffSpec = Message["FlootTier14HeroicOffSpec"]
 	Floot:Debug("BroadcastUpdate", "Recieved Raid Broadcast with updated WinnerList")
 end
 
@@ -2742,14 +2742,14 @@ end
 function Floot:IncClearAllData(Force, Sender)
 	Floot:Debug("BroadcastUpdate", "Recieved Clear All Data")
 	Floot:ClearWinnerList(Force)
-	FlootTier12MainSpec = {}
-	FlootTier12OffSpec = {}
-	FlootTier12HeroicMainSpec = {}
-	FlootTier12HeroicOffSpec = {}
-	FlootTier11MainSpec = {}
-	FlootTier11OffSpec = {}
-	FlootTier11HeroicMainSpec = {}
-	FlootTier11HeroicOffSpec = {}
+	FlootTier15MainSpec = {}
+	FlootTier15OffSpec = {}
+	FlootTier15HeroicMainSpec = {}
+	FlootTier15HeroicOffSpec = {}
+	FlootTier14MainSpec = {}
+	FlootTier14OffSpec = {}
+	FlootTier14HeroicMainSpec = {}
+	FlootTier14HeroicOffSpec = {}
 	Floot:Print(Sender .. " forced the addon to clear all raid data")
 end
 
@@ -2956,22 +2956,22 @@ function Floot:DumpWinnerList()
 	Floot:DumpArray(FlootMainWinnerList)
 	Floot:Print("OffSpec list")
 	Floot:DumpArray(FlootOffWinnerList)
-	Floot:Print("FlootTier12MainSpec")
-	Floot:DumpArray(FlootTier12MainSpec)
-	Floot:Print("FlootTier12OffSpec")
-	Floot:DumpArray(FlootTier12OffSpec)
-	Floot:Print("FlootTier12HeroicMainSpec")
-	Floot:DumpArray(FlootTier12HeroicMainSpec)
-	Floot:Print("FlootTier12HeroicOffSpec")
-	Floot:DumpArray(FlootTier12HeroicOffSpec)
-	Floot:Print("FlootTier11MainSpec")
-	Floot:DumpArray(FlootTier11MainSpec)
-	Floot:Print("FlootTier11OffSpec")
-	Floot:DumpArray(FlootTier11OffSpec)
-	Floot:Print("FlootTier11HeroicMainSpec")
-	Floot:DumpArray(FlootTier11HeroicMainSpec)
-	Floot:Print("FlootTier11HeroicOffSpec")
-	Floot:DumpArray(FlootTier11HeroicOffSpec)
+	Floot:Print("FlootTier15MainSpec")
+	Floot:DumpArray(FlootTier15MainSpec)
+	Floot:Print("FlootTier15OffSpec")
+	Floot:DumpArray(FlootTier15OffSpec)
+	Floot:Print("FlootTier15HeroicMainSpec")
+	Floot:DumpArray(FlootTier15HeroicMainSpec)
+	Floot:Print("FlootTier15HeroicOffSpec")
+	Floot:DumpArray(FlootTier15HeroicOffSpec)
+	Floot:Print("FlootTier14MainSpec")
+	Floot:DumpArray(FlootTier14MainSpec)
+	Floot:Print("FlootTier14OffSpec")
+	Floot:DumpArray(FlootTier14OffSpec)
+	Floot:Print("FlootTier14HeroicMainSpec")
+	Floot:DumpArray(FlootTier14HeroicMainSpec)
+	Floot:Print("FlootTier14HeroicOffSpec")
+	Floot:DumpArray(FlootTier14HeroicOffSpec)
 end
 
 
