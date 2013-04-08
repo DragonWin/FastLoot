@@ -55,10 +55,10 @@ function FlootCom:OnCommReceived(Prefix,Data,Distribution,Sender)
 				Floot:GetRaidSetupInfoReply(Message,Sender)
 			elseif (FunctionIdent == "IncClearAllData") then
 				Floot:IncClearAllData(Message,Sender)
-			elseif (FunctionIdent == "IncShareNukers") then
-				Floot:IncShareNukers(Message,Sender)
-			elseif (FunctionIdent == "IncNukerList") then
-				Floot:IncNukerList(Message,Sender)
+--			elseif (FunctionIdent == "IncShareNukers") then
+--				Floot:IncShareNukers(Message,Sender)
+--			elseif (FunctionIdent == "IncNukerList") then
+--				Floot:IncNukerList(Message,Sender)
 			elseif (FunctionIdent == "IncRaiderRanks") then
 				Floot:IncRaiderRanks(Message,Sender)
 			elseif (FunctionIdent == "ClearRaidSession") then

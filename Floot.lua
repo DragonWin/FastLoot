@@ -119,12 +119,12 @@ Floot_ConfigDb = {
 	WinnerListResetDate = date("%d/%m/%y %H:%M"),			-- Contains the date for the last lootlist reset
 	Mode = nil,												-- No longer used
 	MasterLooter = false,									-- Contains the default masterlooter
-	KnownNukers = {
-		PlaceHolder = ""
-	},										-- Place holder so the gui can work
-	BannedNukers = {
-		PlaceHolder = ""
-	},										-- Holds those that are banned as nukers.
+--	KnownNukers = {
+--		PlaceHolder = ""
+--	},										-- Place holder so the gui can work
+--	BannedNukers = {
+--		PlaceHolder = ""
+--	},										-- Holds those that are banned as nukers.
 	RaidLootQuality = 3,					-- Set the Raids loot quality to this.
 	RaidDifficulty = 3,						-- 3 = 10 player, 4 = 25 player, 5 = 10 player heroic, 6 = 25 player heroic. 
 	RaidDifficultyAI = true,				-- can be true or false, will try and determine if it's a 10 or 25 man raid.
@@ -167,6 +167,7 @@ function Floot:OnInitialize()
 	self:RegisterEvent("VARIABLES_LOADED", "CleanOldConfig")
 	self:RegisterEvent("ZONE_CHANGED_NEW_AREA", "SetZoneName")
 	self:RegisterEvent("GROUP_ROSTER_UPDATE", "RaidGroupChanged")
+	self:RegisterEvent("PLAYER_ENTERING_WORLD", "EnterWorld")
 	Floot:CleanOldConfig()
 	FlootGui = Floot:NewFlootGui()
 	ConfigOpts = FlootGui:CreateGui()
@@ -180,15 +181,23 @@ end
 
 
 --------------------------------------------------------
+----     Player entering world or changing zone		----
+--------------------------------------------------------
+function Floot:EnterWorld()
+	GuildRoster()
+end
+
+
+--------------------------------------------------------
 ----     Change old saved lua, to new format		----
 --------------------------------------------------------
 function Floot:CleanOldConfig()
 	Floot_ConfigDb["Mode"] = nil
 
-	if not (Floot_ConfigDb["KnownNukers"] ) then
-		Floot_ConfigDb["KnownNukers"] = {}
-		Floot_ConfigDb["KnownNukers"]["PlaceHolder"] = ""
-	end
+--	if not (Floot_ConfigDb["KnownNukers"] ) then
+--		Floot_ConfigDb["KnownNukers"] = {}
+--		Floot_ConfigDb["KnownNukers"]["PlaceHolder"] = ""
+--	end
 
 	if not (Floot_ConfigDb["OfficialMode"] == true or Floot_ConfigDb["OfficialMode"] == false) then
 		Floot_ConfigDb["OfficialMode"] = true
@@ -199,7 +208,7 @@ function Floot:CleanOldConfig()
 	end
 
 	if not (Floot_ConfigDb["RaidDifficulty"] ) then
-		Floot_ConfigDb["RaidDifficulty"] = 2
+		Floot_ConfigDb["RaidDifficulty"] = 3
 	end
 
 	if not (Floot_ConfigDb["RaidDifficultyAI"] == true or Floot_ConfigDb["RaidDifficultyAI"] == false ) then
@@ -222,10 +231,10 @@ function Floot:CleanOldConfig()
 		FlootRuntime["InSync"] = false
 	end
 
-	if not (Floot_ConfigDb["BannedNukers"] ) then
-		Floot_ConfigDb["BannedNukers"] = {}
-		Floot_ConfigDb["BannedNukers"]["PlaceHolder"] = ""
-	end
+--	if not (Floot_ConfigDb["BannedNukers"] ) then
+--		Floot_ConfigDb["BannedNukers"] = {}
+--		Floot_ConfigDb["BannedNukers"]["PlaceHolder"] = ""
+--	end
 
 	if not (Floot_ConfigDb["RaiderRanks"] ) then
 		Floot_ConfigDb["RaiderRanks"] = {
@@ -399,7 +408,7 @@ end
 function Floot:RaidSetup(Remote)
 	local IsML
 	local MLPresent
-        local RL = Floot:GetRL()
+	local RL = Floot:GetRL()
 
 	if ( UnitInRaid("player") or FlootRuntime["Debug"]["BypassRaid"] ) then	-- Am I in a raid?
 
@@ -437,8 +446,8 @@ function Floot:RaidSetup(Remote)
 			FlootRuntime["RaidDifficultyTimer"] = Floot:ScheduleTimer("SetRestOfRaidUp", 3, "SetRaidDifficulty")
 			FlootRuntime["MLCheckTimer"] = Floot:ScheduleTimer("SetRestOfRaidUp", 5, "IsML")
 
-		else
-			FlootRuntime["MLCheckTimer"] = Floot:ScheduleTimer("SetRestOfRaidUp", 5, "IsML")
+--		else
+			-- FlootRuntime["MLCheckTimer"] = Floot:ScheduleTimer("SetRestOfRaidUp", 5, "IsML")
 		end
 
 		-- Notifiy others to setup Floot
@@ -461,7 +470,7 @@ end
 --------------------------------------------------------
 function Floot:SetRestOfRaidUp(Type)
 	if (Type == "SetLootThreshold") then
-		SetLootThreshold(Floot_ConfigDb["RaidLootQuality"])	-- 1 = 10 player, 2 = 25 player, 3 = 10 player heroic, 4 = 25 player heroic. 
+		SetLootThreshold(Floot_ConfigDb["RaidLootQuality"])	-- 3 = 10 player, 4 = 25 player, 5 = 10 player heroic, 6 = 25 player heroic. 
 		FlootRuntime["LootThresholdTimer"] = nil
 
 	elseif (Type == "SetRaidDifficulty") then
@@ -492,6 +501,7 @@ function Floot:SetRestOfRaidUp(Type)
 			FlootRaidRoster["Version"] = FlootRuntime["VersionMajor"] .. "." .. FlootRuntime["VersionMinor"]
 			FlootRaidRoster["Raiders"] = {}
 			FlootRaidRoster["RaidMode"] = Floot_ConfigDb["OfficialMode"]
+			Floot:SetRaidNuker()
 
 			-- Start storing attendance and broadcast to others they should do the same.
 			FlootRuntime["InSync"] = true
@@ -500,7 +510,7 @@ function Floot:SetRestOfRaidUp(Type)
 		end
 		-- Always clear the button pressed mark
 		FlootRuntime["LocalSetupButtonPressed"] = false
-		Floot:SetRaidNuker()
+--		Floot:SetRaidNuker()
 	end
 end
 
@@ -509,19 +519,36 @@ end
 ----           Set the raid Nuker                   ----
 --------------------------------------------------------
 function Floot:SetRaidNuker()
-	for NukerName, value in pairs(Floot_ConfigDb["KnownNukers"]) do
-		if (NukerName ~= "PlaceHolder") then	-- avoid the placeholder slot
+	local InEnchanting = false  -- keep track of profession group
+	local SkillName = "Enchanting"  -- profession we are looking for
+	local NukerName = UnitName("player")
+	local NukerSkill = 1
+
+	for index=1, GetNumGuildTradeSkill(), 1 do
+		local skillID, isCollapsed, iconTexture, headerName, _, numOnline, numPlayers, playerName, class, online, zone, skill, classFileName, isMobile = GetGuildTradeSkillInfo(index)
+	
+		if (headerName == SkillName) then
+			InEnchanting = true
+		end
+   
+		if (headerName ~= nil and headerName ~= SkillName) then
+			InEnchanting = false
+		end
+   
+		if (InEnchanting == true and playerName ~= nil) then
 			for i=1, GetNumGroupMembers() do
-				local RaidName = GetRaidRosterInfo(i)
-				if (RaidName == NukerName) then
-					-- I am the ML
-					Floot:SetNuker(nil, RaidName)	
-					return
+				local RaidName, _, _, _, _, _, _, _, _, _, _ = GetRaidRosterInfo(i)
+				if (RaidName == playerName) then
+					if (skill > NukerSkill) then
+						NukerName = playerName
+						NukerSkill = skill
+					end
 				end
 			end
 		end
 	end
-	Floot:Print(RED_FONT_COLOR_CODE.. "I did not find a suitable raid nuker, no nuker set" .. FONT_COLOR_CODE_CLOSE)
+
+	Floot:SetNuker(Input, NukerName)
 end
 
 --------------------------------------------------------
@@ -615,7 +642,7 @@ function Floot:RaidGroupChanged(Event, ...)
 			FlootRuntime["IsInRaid"] = 1
 			Floot:ClearWinnerList()
 			Floot:TriggerVersionCheck(true)
-			Floot:BroadcastShareNukers()
+--			Floot:BroadcastShareNukers()
 
 			-- Ask if we are Collecting FlootRaidRoster info
 			Floot:ScheduleTimer("BroadcastAreWeGatheringFlootRaidRoster", 1)
@@ -1991,10 +2018,10 @@ function Floot:SetNuker(Input, Nuker)
 		return
 	end
 
-	if (Floot_ConfigDb["BannedNukers"][Nuker]) then
-		Floot:Print(RED_FONT_COLOR_CODE .. "That nuker is in your ban list, no nuker set" .. FONT_COLOR_CODE_CLOSE)
-		return
-	end
+--	if (Floot_ConfigDb["BannedNukers"][Nuker]) then
+--		Floot:Print(RED_FONT_COLOR_CODE .. "That nuker is in your ban list, no nuker set" .. FONT_COLOR_CODE_CLOSE)
+--		return
+--	end
 
 	if (Nuker) then
 		for i = 1, GetNumGroupMembers() do
@@ -2362,6 +2389,7 @@ function Floot:PackFullSyncData()
 	Transmit["FlootRaidRoster"] = FlootRaidRoster
 	Transmit["OfficialMode"] = Floot_ConfigDb["OfficialMode"]
 	Transmit["RaiderRanks"] = Floot_ConfigDb["RaiderRanks"]
+	Transmit["Nuker"] = FlootRuntime["Nuker"]
 	return Transmit
 end
 
@@ -2387,6 +2415,7 @@ function Floot:UnPackFullSyncData(Message)
 	Floot_ConfigDb["OfficialMode"] = Message["OfficialMode"]
 	Floot_ConfigDb["Enabled"] = true
 	Floot_ConfigDb["RaiderRanks"] = Message["RaiderRanks"]
+	FlootRuntime["Nuker"] = Message["Nuker"]
 	
 	local Mode
 	if (Floot_ConfigDb["OfficialMode"]) then
@@ -2419,9 +2448,9 @@ function Floot:UpdateMLChange(Message,Sender)
 		FlootFrames:UpdateStatusFrame()
 		Floot:Debug("BroadcastUpdate", "Recieved full sync from " .. Sender)
 		Floot:Print("Sync complete")
-		if (not FlootRuntime["Nuker"]) then
-			Floot:SetRaidNuker()
-		end
+--		if (not FlootRuntime["Nuker"]) then
+--			Floot:SetRaidNuker()
+--		end
 	end
 end
 
@@ -2634,7 +2663,7 @@ function Floot:IncGetRaidSetupInfo(Message,Sender)
 	Transmit["RaidDifficulty"] = Floot_ConfigDb["RaidDifficulty"]
 	Transmit["RaidDifficultyAI"] = Floot_ConfigDb["RaidDifficultyAI"]
 	Transmit["RaidDiffucltyHeroic"] = Floot_ConfigDb["RaidDiffucltyHeroic"]
-	Transmit["KnownNukers"] = Floot_ConfigDb["KnownNukers"]
+--	Transmit["KnownNukers"] = Floot_ConfigDb["KnownNukers"]
 	if (FlootRuntime["Nuker"]) then
 		Transmit["Nuker"] = FlootRuntime["Nuker"]
 	end
@@ -2671,10 +2700,10 @@ function Floot:GetRaidSetupInfoReply(Message,Sender)
 
 	if (Message["RaidDifficulty"]) then
 		local Values = {
-			[1] = "Normal 10",
-			[3] = "Heroic 10",
-			[2] = "Normal 25",
-			[4] = "Heroic 25",
+			[3] = "Normal 10",
+			[5] = "Heroic 10",
+			[4] = "Normal 25",
+			[6] = "Heroic 25",
 		}
 		Floot:Print("|cff2459ffForced raid type set to: " .. FONT_COLOR_CODE_CLOSE .. Values[Message.RaidDifficulty])
 	end
@@ -2689,10 +2718,10 @@ function Floot:GetRaidSetupInfoReply(Message,Sender)
 		Floot:Print("|cff2459ffNuker set to: " .. FONT_COLOR_CODE_CLOSE .. "None");
 	end
 
-	Floot:Print("KnownNukers")
-	for Name, Value in pairs(Message["KnownNukers"]) do
-		Floot:Print(Name)
-	end
+--	Floot:Print("KnownNukers")
+--	for Name, Value in pairs(Message["KnownNukers"]) do
+--		Floot:Print(Name)
+--	end
 
 end
 
@@ -2727,40 +2756,40 @@ end
 ---------------------------------------------------------
 ----        Broadcast start Sharing nukers           ----
 ---------------------------------------------------------
-function Floot:BroadcastShareNukers()
-	Floot:Debug("BroadcastUpdate", "Sending StartShareNukers")
-	FlootCom:SendMessage("RAID", "IncShareNukers", "Broadcast", "update")
-	Floot:IncShareNukers("Fo", UnitName("player"))
-end
+-- function Floot:BroadcastShareNukers()
+--	Floot:Debug("BroadcastUpdate", "Sending StartShareNukers")
+--	FlootCom:SendMessage("RAID", "IncShareNukers", "Broadcast", "update")
+--	Floot:IncShareNukers("Fo", UnitName("player"))
+--end
 
 ---------------------------------------------------------
 ----            Incoming Share Nukers                ----
 ---------------------------------------------------------
-function Floot:IncShareNukers(Message, Sender)
-	Transmit = {}
-	Transmit["RaidNukers"] = Floot_ConfigDb["KnownNukers"]
-	Floot:Debug("BroadcastUpdate", "Sending my nukers")
-	FlootCom:SendMessage("RAID", "IncNukerList", "Broadcast", Transmit)
-end
+--function Floot:IncShareNukers(Message, Sender)
+--	Transmit = {}
+--	Transmit["RaidNukers"] = Floot_ConfigDb["KnownNukers"]
+--	Floot:Debug("BroadcastUpdate", "Sending my nukers")
+--	FlootCom:SendMessage("RAID", "IncNukerList", "Broadcast", Transmit)
+--end
 
 ---------------------------------------------------------
 ----              Incoming Nuker list                ----
 ---------------------------------------------------------
-function Floot:IncNukerList(Message, Sender)
-	for Rkey, Rvalue in pairs(Message["RaidNukers"]) do
-		local Found = nil
-		for Lkey, Lvalue in pairs(Floot_ConfigDb["KnownNukers"]) do
-			if (Lkey == Rkey) then
-				Found = true
-			end
-		end
-		if (not Found) then
-			if (not Floot_ConfigDb["BannedNukers"][Rkey]) then
-				Floot_ConfigDb["KnownNukers"][Rkey] = Rkey
-			end
-		end
-	end
-end
+--function Floot:IncNukerList(Message, Sender)
+--	for Rkey, Rvalue in pairs(Message["RaidNukers"]) do
+--		local Found = nil
+--		for Lkey, Lvalue in pairs(Floot_ConfigDb["KnownNukers"]) do
+--			if (Lkey == Rkey) then
+--				Found = true
+--			end
+--		end
+--		if (not Found) then
+--			if (not Floot_ConfigDb["BannedNukers"][Rkey]) then
+--				Floot_ConfigDb["KnownNukers"][Rkey] = Rkey
+--			end
+--		end
+--	end
+--end
 
 --------------------------------------------------------
 ---- Requires LibRockConsole in order to work.      ----
