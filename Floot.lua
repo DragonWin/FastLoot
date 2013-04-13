@@ -516,7 +516,7 @@ end
 
 
 --------------------------------------------------------
-----           Set the raid Nuker                   ----
+----   Set the raid Nuker based on Guild Roster     ----
 --------------------------------------------------------
 function Floot:SetRaidNuker()
 	local InEnchanting = false  -- keep track of profession group
@@ -661,7 +661,7 @@ function Floot:RaidGroupChanged(Event, ...)
 end
 
 --------------------------------------------------------
-----      Check to see if this is a new raid        ----
+----       Keep track of who is in the raid         ----
 --------------------------------------------------------
 function Floot:StoreFlootRaidRoster()
 -- TODO Add gathering of guild rank	
@@ -1101,7 +1101,7 @@ function Floot:IncomingRolls(Event, String)
 					if ( FlootRuntime.RollLoot.ArmorType ) then
 						if ( ( Class == "Mage" or Class == "Warlock" or Class == "Priest" ) and FlootRuntime.RollLoot.ArmorType == "Cloth" ) then
 							ArmorTypeMatch = "8"
-						elseif ( ( Class == "Druid" or Class == "Rogue" ) and FlootRuntime.RollLoot.ArmorType == "Leather" ) then
+						elseif ( ( Class == "Druid" or Class == "Rogue"  or Class == "Monk" ) and FlootRuntime.RollLoot.ArmorType == "Leather" ) then
 							ArmorTypeMatch = "8"
 						elseif ( ( Class == "Shaman" or Class == "Hunter" ) and FlootRuntime.RollLoot.ArmorType == "Mail" ) then
 							ArmorTypeMatch = "8"
