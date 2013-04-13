@@ -285,7 +285,7 @@ function FlootGui:CreateGui()
 							},
 						},
 					},
-					MasterLooterGroup = {
+--[[					MasterLooterGroup = {
 						type = "group",
 						name = "Master Looter's setup",
 						guiInline = true,
@@ -326,7 +326,7 @@ function FlootGui:CreateGui()
 								confirmText = "Really unban this player?",
 							},
 						},
-					},
+					}, ]]--
 				},
 			},
 			GuildSettingsGroup = {
