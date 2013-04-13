@@ -410,7 +410,7 @@ function Floot:RaidSetup(Remote)
 	local MLPresent
 	local RL = Floot:GetRL()
 
-	if ( UnitInRaid("player") or FlootRuntime["Debug"]["BypassRaid"] ) then	-- Am I in a raid?
+	if ( ( UnitInRaid("player") and UnitName("player") == RL ) or FlootRuntime["Debug"]["BypassRaid"] ) then	-- Am I in a raid?
 
 		-- Find out if the set ML is in the raid.
 		for i=1, GetNumGroupMembers() do
@@ -459,7 +459,7 @@ function Floot:RaidSetup(Remote)
 		Floot:CreateAllAccounts() -- Create the table with alt and mains
 	
 	else
-		Floot:Print("You're not in a raid, can't do any setup for you")
+		Floot:Print("You're not in a raid, or you are not the raid leader")
 	end
 end
 

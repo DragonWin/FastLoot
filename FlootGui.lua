@@ -64,7 +64,7 @@ function FlootGui:CreateGui()
 					setup = {
 						order = 7,
 						name = "Setup the raid",
-						desc = "Setup the raid based on the settings from \"Raid Settings\"",
+						desc = "Setup the raid based on the settings from \"Raid Settings\". You must be the Raid Leader to use this.",
 						type = "execute",
 						func = function()
 							FlootRuntime["LocalSetupButtonPressed"] = true
@@ -73,9 +73,10 @@ function FlootGui:CreateGui()
 						confirm = true,
 						confirmText = "Remember to check the raid mode (Official / Unofficial) before you press Accept\n\n Unofficial raids will not be accepted by the website",
 						disabled = function() 
+							local RL = Floot:GetRL()
 							if ( FlootRuntime["Debug"]["BypassRaid"] ) then
 								return false
-							elseif ( FlootRuntime["InSync"] == true or FlootRuntime["IsInRaid"] == nil ) then
+							elseif ( FlootRuntime["InSync"] == true or FlootRuntime["IsInRaid"] == nil or RL ~= UnitName("player") ) then
 								return true
 							else 
 								return false 
